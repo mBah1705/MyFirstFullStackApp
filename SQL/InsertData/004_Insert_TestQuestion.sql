@@ -1,0 +1,50 @@
+USE MyFirstFullStackApp_DEV
+GO
+
+IF (SELECT COUNT(1) FROM TestQuestion) = 0
+BEGIN
+	INSERT INTO TestQuestion VALUES (1, 1)
+	INSERT INTO TestQuestion VALUES (1, 3)
+	INSERT INTO TestQuestion VALUES (1, 4)
+	INSERT INTO TestQuestion VALUES (1, 5)
+	INSERT INTO TestQuestion VALUES (1, 6)
+	INSERT INTO TestQuestion VALUES (1, 7)
+	INSERT INTO TestQuestion VALUES (1, 8)
+	INSERT INTO TestQuestion VALUES (1, 9)
+	INSERT INTO TestQuestion VALUES (1, 10)
+	INSERT INTO TestQuestion VALUES (1, 11)
+
+	INSERT INTO TestQuestion VALUES (2, 1)
+	INSERT INTO TestQuestion VALUES (2, 3)
+	INSERT INTO TestQuestion VALUES (2, 4)
+	INSERT INTO TestQuestion VALUES (2, 5)
+	INSERT INTO TestQuestion VALUES (2, 6)
+	INSERT INTO TestQuestion VALUES (2, 7)
+	INSERT INTO TestQuestion VALUES (2, 8)
+	INSERT INTO TestQuestion VALUES (2, 9)
+	INSERT INTO TestQuestion VALUES (2, 11)
+	INSERT INTO TestQuestion VALUES (2, 12)
+
+	INSERT INTO TestQuestion VALUES (3, 2)
+	INSERT INTO TestQuestion VALUES (3, 3)
+	INSERT INTO TestQuestion VALUES (3, 4)
+	INSERT INTO TestQuestion VALUES (3, 6)
+	INSERT INTO TestQuestion VALUES (3, 7)
+	INSERT INTO TestQuestion VALUES (3, 8)
+	INSERT INTO TestQuestion VALUES (3, 9)
+	INSERT INTO TestQuestion VALUES (3, 10)
+	INSERT INTO TestQuestion VALUES (3, 11)
+	INSERT INTO TestQuestion VALUES (3, 13)
+
+	INSERT INTO TestQuestion VALUES (4, 1)
+	INSERT INTO TestQuestion VALUES (4, 2)
+	INSERT INTO TestQuestion VALUES (4, 3)
+	INSERT INTO TestQuestion VALUES (4, 4)
+	INSERT INTO TestQuestion VALUES (4, 5)
+	INSERT INTO TestQuestion VALUES (4, 6)
+	INSERT INTO TestQuestion VALUES (4, 8)
+	INSERT INTO TestQuestion VALUES (4, 9)
+	INSERT INTO TestQuestion VALUES (4, 10)
+	INSERT INTO TestQuestion VALUES (4, 11)
+END
+GO
