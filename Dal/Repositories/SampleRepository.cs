@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Dal.Repositories
 {
-    public class SampleRepository
+    public class SampleRepository : ISampleRepository
     {
-        public static IEnumerable<TestModel> CreateSampleData()
+        public IEnumerable<TestModel> CreateSampleData()
         {
             var output = new List<TestModel>
             {

@@ -12,19 +12,23 @@ namespace Api.Controllers
     [ApiController]
     public class SampleController : ControllerBase
     {
-        SampleBusiness sample = new SampleBusiness();
+        private readonly ISampleBusiness _sampleBusiness;
+        public SampleController(ISampleBusiness sampleBusiness)
+        {
+            _sampleBusiness = sampleBusiness;
+        }
         // GET: api/Sample
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return sample.ListAllData();
+            return Ok(_sampleBusiness.ListAllData());
         }
 
         // GET: api/Sample/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return sample.ListOneData(id);
+            return Ok(_sampleBusiness.ListOneData(id));
         }
 
         // POST: api/Sample
