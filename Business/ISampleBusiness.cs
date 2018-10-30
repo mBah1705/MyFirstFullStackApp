@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Business
 {
     public interface ISampleBusiness
     {
-        IEnumerable<string> ListAllData();
-        string ListOneData(int id);
+        Task<IEnumerable<string>> ListAllTestsAsync();
+        Task<string> ListOneTestAsync(int id);
     }
 }

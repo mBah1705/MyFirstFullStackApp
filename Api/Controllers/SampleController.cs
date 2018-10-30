@@ -10,7 +10,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SampleController : ControllerBase
+    public class SampleController : ControllerBase, ISampleController
     {
         private readonly ISampleBusiness _sampleBusiness;
         public SampleController(ISampleBusiness sampleBusiness)
@@ -19,16 +19,20 @@ namespace Api.Controllers
         }
         // GET: api/Sample
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> GetAsync()
         {
-            return Ok(_sampleBusiness.ListAllData());
+            return Ok(await _sampleBusiness.ListAllTestsAsync());
         }
 
         // GET: api/Sample/5
         [HttpGet("{id}", Name = "Get")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> GetAsync(int id)
         {
-            return Ok(_sampleBusiness.ListOneData(id));
+            var result = _sampleBusiness.ListOneTestAsync(id);
+            //if (result.)
+            //    return NotFound();
+
+            return Ok(await result);
         }
 
         // POST: api/Sample

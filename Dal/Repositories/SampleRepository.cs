@@ -1,20 +1,32 @@
 ﻿using Common.Model;
+using Dal.Entities.DB;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Dal.Repositories
 {
     public class SampleRepository : ISampleRepository
     {
-        public IEnumerable<TestModel> CreateSampleData()
+        MyFirstFullStackApp_DEVContext context = new MyFirstFullStackApp_DEVContext();
+
+        public async Task<IEnumerable<TestModel>> GetTestsAsync()
         {
-            var output = new List<TestModel>
+            var tests = context.Test;
+            var output = new List<TestModel>();
+            var tasks = new List<Task<TestModel>>();
+
+            foreach (var test in tests)
             {
-                new TestModel { Id = 1, Title = "C# Very Easy" },
-                new TestModel { Id = 2, Title = "C# Easy" },
-                new TestModel { Id = 3, Title = "C# Normal" },
-                new TestModel { Id = 4, Title = "C# Hard" },
-                new TestModel { Id = 5, Title = "C# Very Hard" }
-            };
+                tasks.Add(Task.Run(() => new TestModel { Id = test.Id, Title = test.Title }));
+            }
+
+            var results = await Task.WhenAll(tasks);
+
+            foreach( var item in results)
+            {
+                output.Add(item);
+            }
 
             return output;
         }

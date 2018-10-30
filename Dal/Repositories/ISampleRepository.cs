@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Common.Model;
 
 namespace Dal.Repositories
 {
     public interface ISampleRepository
     {
-        IEnumerable<TestModel> CreateSampleData();
+        Task<IEnumerable<TestModel>> GetTestsAsync();
     }
 }

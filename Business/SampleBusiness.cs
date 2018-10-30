@@ -3,6 +3,7 @@ using Dal.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Business
 {
@@ -15,24 +16,36 @@ namespace Business
             _sampleRepository = sampleRepository;
         }
 
-        private void InstantiateSample() => sample = _sampleRepository.CreateSampleData();
+        private async Task InstantiateSample()
+        {
+            sample = await _sampleRepository.GetTestsAsync();
+        }
 
-
-        public IEnumerable<string> ListAllData()
+        public async Task<IEnumerable<string>> ListAllTestsAsync()
         {
             var list = new List<string>();
-            InstantiateSample();
+            await InstantiateSample();
             foreach (TestModel data in sample)
             {
-                list.Add(data.Title);
+                await Task.Run(() => list.Add(data.Title));
             }
             return list;
         }
 
-        public string ListOneData(int id)
+        public async Task<string> ListOneTestAsync(int id)
         {
-            InstantiateSample();
-            return sample.Where(data => data.Id == id).FirstOrDefault().Title;
+            await InstantiateSample();
+
+            var testSample = sample.ElementAtOrDefault(id);
+
+            if (testSample != null)
+            {
+                return await Task.Run(() => sample.Where(test => test.Id == id).FirstOrDefault().Title);
+            }
+            else
+            {
+                throw new Exception($"ID: {id} is not found!");
+            }
         }
     }
 }
