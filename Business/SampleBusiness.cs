@@ -16,7 +16,7 @@ namespace Business
             _sampleRepository = sampleRepository;
         }
 
-        private async Task InstantiateSample()
+        private async Task InstantiateSampleAsync()
         {
             sample = await _sampleRepository.GetTestsAsync();
         }
@@ -24,7 +24,7 @@ namespace Business
         public async Task<IEnumerable<string>> ListAllTestsAsync()
         {
             var list = new List<string>();
-            await InstantiateSample();
+            await InstantiateSampleAsync();
             foreach (TestModel data in sample)
             {
                 await Task.Run(() => list.Add(data.Title));
@@ -34,18 +34,20 @@ namespace Business
 
         public async Task<string> ListOneTestAsync(int id)
         {
-            await InstantiateSample();
+            await InstantiateSampleAsync();
 
-            var testSample = sample.ElementAtOrDefault(id);
+            string result = null;
 
-            if (testSample != null)
+            try
             {
-                return await Task.Run(() => sample.Where(test => test.Id == id).FirstOrDefault().Title);
+                result = sample.Where(t => t.Id == id).FirstOrDefault().Title;
+                result = await Task.Run(() => result);
             }
-            else
+            catch (NullReferenceException)
             {
-                throw new Exception($"ID: {id} is not found!");
+                // NullReferenceException will be caught when the ID is not found!
             }
+            return result;
         }
     }
 }

@@ -28,11 +28,11 @@ namespace Api.Controllers
         [HttpGet("{id}", Name = "Get")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var result = _sampleBusiness.ListOneTestAsync(id);
-            //if (result.)
-            //    return NotFound();
+            var result = await _sampleBusiness.ListOneTestAsync(id);
+            if (result == null)
+                return NotFound();
 
-            return Ok(await result);
+            return Ok(result);
         }
 
         // POST: api/Sample
