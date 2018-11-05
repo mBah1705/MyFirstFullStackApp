@@ -7,5 +7,6 @@ namespace Dal.Repositories
     public interface ISampleRepository
     {
         Task<IEnumerable<TestModel>> GetTestsAsync();
+        Task<TestModel> GetTestByIdAsync(int id);
     }
 }

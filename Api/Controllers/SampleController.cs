@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Business;
-using Microsoft.AspNetCore.Http;
+﻿using Business;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SampleController : ControllerBase, ISampleController
+    public class SampleController : ControllerBase
     {
         private readonly ISampleBusiness _sampleBusiness;
         public SampleController(ISampleBusiness sampleBusiness)
@@ -29,8 +25,11 @@ namespace Api.Controllers
         public async Task<IActionResult> GetAsync(int id)
         {
             var result = await _sampleBusiness.ListOneTestAsync(id);
+
             if (result == null)
+            {
                 return NotFound();
+            }
 
             return Ok(result);
         }

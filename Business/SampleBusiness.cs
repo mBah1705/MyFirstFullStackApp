@@ -11,9 +11,32 @@ namespace Business
     {
         private readonly ISampleRepository _sampleRepository;
         private IEnumerable<TestModel> sample;
+        private TestModel singleSample;
+
         public SampleBusiness(ISampleRepository sampleRepository)
         {
             _sampleRepository = sampleRepository;
+        }
+
+        public async Task<IEnumerable<string>> ListAllTestsAsync()
+        {
+            await InstantiateSampleAsync();
+            return sample.Select(e => e.Title);
+        }
+
+        public async Task<string> ListOneTestAsync(int id)
+        {
+            string title = null;
+            try
+            {
+                await InstantiateSampleAsync(id);
+                title = singleSample.Title;
+            }
+            catch (NullReferenceException)
+            {
+                // NullReferenceException will be caught when the ID is not found!
+            }
+            return title;
         }
 
         private async Task InstantiateSampleAsync()
@@ -21,33 +44,9 @@ namespace Business
             sample = await _sampleRepository.GetTestsAsync();
         }
 
-        public async Task<IEnumerable<string>> ListAllTestsAsync()
+        private async Task InstantiateSampleAsync(int id)
         {
-            var list = new List<string>();
-            await InstantiateSampleAsync();
-            foreach (TestModel data in sample)
-            {
-                await Task.Run(() => list.Add(data.Title));
-            }
-            return list;
-        }
-
-        public async Task<string> ListOneTestAsync(int id)
-        {
-            await InstantiateSampleAsync();
-
-            string result = null;
-
-            try
-            {
-                result = sample.Where(t => t.Id == id).FirstOrDefault().Title;
-                result = await Task.Run(() => result);
-            }
-            catch (NullReferenceException)
-            {
-                // NullReferenceException will be caught when the ID is not found!
-            }
-            return result;
+            singleSample = await _sampleRepository.GetTestByIdAsync(id);
         }
     }
 }

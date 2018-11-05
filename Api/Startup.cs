@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Business;
+﻿using Business;
+using Dal.Entities.DB;
 using Dal.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Api
@@ -31,6 +26,7 @@ namespace Api
 
             services.AddScoped<ISampleBusiness, SampleBusiness>();
             services.AddScoped<ISampleRepository, SampleRepository>();
+            services.AddScoped<IMyFirstFullStackApp_DEVContext, MyFirstFullStackApp_DEVContext>();
 
             services.AddSwaggerGen(opt =>
             {

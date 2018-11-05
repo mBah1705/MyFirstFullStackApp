@@ -2,33 +2,40 @@
 using Dal.Entities.DB;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dal.Repositories
 {
     public class SampleRepository : ISampleRepository
     {
-        MyFirstFullStackApp_DEVContext context = new MyFirstFullStackApp_DEVContext();
+        private readonly IMyFirstFullStackApp_DEVContext _context;
+
+        public SampleRepository(IMyFirstFullStackApp_DEVContext context)
+        {
+            _context = context;
+        }
 
         public async Task<IEnumerable<TestModel>> GetTestsAsync()
         {
-            var tests = context.Test;
-            var output = new List<TestModel>();
-            var tasks = new List<Task<TestModel>>();
-
-            foreach (var test in tests)
+            var entites = await _context.Test.ToListAsync();
+            // TODO use AutoMapper
+            return entites.Select(e => new TestModel
             {
-                tasks.Add(Task.Run(() => new TestModel { Id = test.Id, Title = test.Title }));
-            }
+                Id = e.Id,
+                Title = e.Title
+            });
+        }
 
-            var results = await Task.WhenAll(tasks);
-
-            foreach( var item in results)
+        public async Task<TestModel> GetTestByIdAsync(int id)
+        {
+            var entity = await _context.Test.Where(t => t.Id == id).SingleOrDefaultAsync();
+            // TODO use AutoMapper
+            return new TestModel
             {
-                output.Add(item);
-            }
-
-            return output;
+                Id = entity.Id,
+                Title = entity.Title
+            };
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace Dal.Entities.DB
 {
-    public partial class MyFirstFullStackApp_DEVContext : DbContext
+    public partial class MyFirstFullStackApp_DEVContext : DbContext, IMyFirstFullStackApp_DEVContext
     {
         public MyFirstFullStackApp_DEVContext()
         {
@@ -24,10 +24,17 @@ namespace Dal.Entities.DB
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            base.OnConfiguring(optionsBuilder);
+            var path = Directory.GetCurrentDirectory();
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(path)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            IConfiguration config = builder.Build();
+            string connStr = config.GetConnectionString("MyFirstFullStackAppConnectionString");
+
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DASZ2-PC;Database=MyFirstFullStackApp_DEV;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(connStr);
             }
         }
 
