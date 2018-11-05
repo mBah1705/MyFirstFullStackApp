@@ -1,4 +1,6 @@
-﻿using Business;
+﻿using AutoMapper;
+using Business;
+using Common.Utility;
 using Dal.Entities.DB;
 using Dal.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -36,6 +38,13 @@ namespace Api
                     Version = "0.0.1"
                 });
             });
+
+            var autoMapperConfiguration = new MapperConfiguration(c =>
+            {
+                c.AddProfile(new ApplicationProfile());
+            });
+            IMapper mapper = autoMapperConfiguration.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

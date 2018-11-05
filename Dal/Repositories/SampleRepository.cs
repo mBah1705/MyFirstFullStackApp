@@ -1,4 +1,5 @@
-﻿using Common.Model;
+﻿using AutoMapper;
+using Common.Model;
 using Dal.Entities.DB;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -10,32 +11,24 @@ namespace Dal.Repositories
     public class SampleRepository : ISampleRepository
     {
         private readonly IMyFirstFullStackApp_DEVContext _context;
+        private readonly IMapper _mapper;
 
-        public SampleRepository(IMyFirstFullStackApp_DEVContext context)
+        public SampleRepository(IMyFirstFullStackApp_DEVContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<TestModel>> GetTestsAsync()
         {
             var entites = await _context.Test.ToListAsync();
-            // TODO use AutoMapper
-            return entites.Select(e => new TestModel
-            {
-                Id = e.Id,
-                Title = e.Title
-            });
+            return _mapper.Map<IEnumerable<TestModel>>(entites);
         }
 
         public async Task<TestModel> GetTestByIdAsync(int id)
         {
             var entity = await _context.Test.Where(t => t.Id == id).SingleOrDefaultAsync();
-            // TODO use AutoMapper
-            return new TestModel
-            {
-                Id = entity.Id,
-                Title = entity.Title
-            };
+            return _mapper.Map<TestModel>(entity);
         }
     }
 }
