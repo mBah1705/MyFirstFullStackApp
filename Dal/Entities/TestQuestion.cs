@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Dal.Entities.DB
+﻿namespace Dal.Entities.DB
 {
     public partial class TestQuestion
     {
