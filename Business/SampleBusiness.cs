@@ -27,6 +27,7 @@ namespace Business
         public async Task<string> ListOneTestAsync(int id)
         {
             string title = null;
+
             try
             {
                 await InstantiateSampleAsync(id);
@@ -36,6 +37,7 @@ namespace Business
             {
                 // NullReferenceException will be caught when the ID is not found!
             }
+
             return title;
         }
 

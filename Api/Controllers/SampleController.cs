@@ -9,10 +9,12 @@ namespace Api.Controllers
     public class SampleController : ControllerBase
     {
         private readonly ISampleBusiness _sampleBusiness;
+
         public SampleController(ISampleBusiness sampleBusiness)
         {
             _sampleBusiness = sampleBusiness;
         }
+
         // GET: api/Sample
         [HttpGet]
         public async Task<IActionResult> GetAsync()
