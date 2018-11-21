@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <Folder Include="Dal\" />
-    <Folder Include="Business\" />
   </ItemGroup>
 
 </Project>

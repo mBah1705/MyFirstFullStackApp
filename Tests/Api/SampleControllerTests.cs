@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Tests.Api
+namespace UnitTests.Api
 {
     [TestClass]
     public class SampleControllerTests
@@ -19,7 +19,6 @@ namespace Tests.Api
         [TestMethod]
         public void GetAsync_ReturnsAListOfAllTests()
         {
-
             //Arrange
             mock.Setup(m => m.ListAllTestsAsync())
                 .Returns(Task.Run(() => GetSampleTests()));
@@ -44,13 +43,11 @@ namespace Tests.Api
             {
                 Assert.AreEqual(expected.ElementAt(i), actual.ElementAt(i));
             }
-
         }
 
         [TestMethod]
         public void GetAsync_WhenIdExists_ReturnsTheTestWithTheGivenId()
         {
-
             //Arrange
             int testId = 1;
             mock.Setup(m => m.ListOneTestAsync(testId))

@@ -21,8 +21,8 @@ namespace Dal.Repositories
 
         public async Task<IEnumerable<TestModel>> GetTestsAsync()
         {
-            var entites = await _context.Test.ToListAsync();
-            return _mapper.Map<IEnumerable<TestModel>>(entites);
+            var entities = await _context.Test.ToListAsync();
+            return _mapper.Map<IEnumerable<TestModel>>(entities);
         }
 
         public async Task<TestModel> GetTestByIdAsync(int id)
