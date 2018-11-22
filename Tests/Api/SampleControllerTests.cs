@@ -13,7 +13,6 @@ namespace UnitTests.Api
     [TestClass]
     public class SampleControllerTests
     {
-
         Mock<ISampleBusiness> mock = new Mock<ISampleBusiness>();
 
         [TestMethod]

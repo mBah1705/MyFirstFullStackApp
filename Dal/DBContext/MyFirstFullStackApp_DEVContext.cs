@@ -28,7 +28,7 @@ namespace Dal.Entities.DB
             var path = Directory.GetCurrentDirectory();
             var builder = new ConfigurationBuilder()
                 .SetBasePath(path)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             IConfiguration config = builder.Build();
             string connStr = config.GetConnectionString("MyFirstFullStackAppConnectionString");
 
