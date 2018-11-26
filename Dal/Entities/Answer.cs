@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Dal.Entities.DB
+namespace Dal.Entities
 {
     public partial class Answer
     {

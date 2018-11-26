@@ -1,4 +1,4 @@
-﻿namespace Dal.Entities.DB
+﻿namespace Dal.Entities
 {
     public partial class TestQuestion
     {

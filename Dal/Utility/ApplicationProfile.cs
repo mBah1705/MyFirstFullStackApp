@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Common.Model;
-using Dal.Entities.DB;
+using Dal.Entities;
 
 namespace Common.Utility
 {
