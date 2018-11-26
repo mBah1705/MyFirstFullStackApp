@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Common.Model;
 using Common.Utility;
-using Dal.Entities.DB;
+using Dal.DBContext;
+using Dal.Entities;
 using Dal.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

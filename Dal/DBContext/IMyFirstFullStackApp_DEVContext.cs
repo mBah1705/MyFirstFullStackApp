@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dal.Entities;
+using Microsoft.EntityFrameworkCore;
 
-namespace Dal.Entities.DB
+namespace Dal.DBContext
 {
     public interface IMyFirstFullStackApp_DEVContext
     {

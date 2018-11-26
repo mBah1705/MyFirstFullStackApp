@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Business;
 using Common.Utility;
-using Dal.Entities.DB;
+using Dal.DBContext;
 using Dal.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

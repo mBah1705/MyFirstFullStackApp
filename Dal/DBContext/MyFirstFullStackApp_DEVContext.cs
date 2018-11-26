@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dal.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-namespace Dal.Entities.DB
+namespace Dal.DBContext
 {
     public partial class MyFirstFullStackApp_DEVContext : DbContext, IMyFirstFullStackApp_DEVContext
     {

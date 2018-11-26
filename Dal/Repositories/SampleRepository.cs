@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using Common.Model;
-using Dal.Entities.DB;
+using Dal.DBContext;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dal.Repositories
