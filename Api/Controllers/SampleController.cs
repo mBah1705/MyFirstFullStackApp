@@ -19,14 +19,14 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            return Ok(await _sampleBusiness.ListAllTestsAsync());
+            return Ok(await _sampleBusiness.GetTestsAsync());
         }
 
         // GET: api/Sample/5
         [HttpGet("{id}", Name = "Get")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var result = await _sampleBusiness.ListOneTestAsync(id);
+            var result = await _sampleBusiness.GetTestByIdAsync(id);
 
             if (result == null)
             {

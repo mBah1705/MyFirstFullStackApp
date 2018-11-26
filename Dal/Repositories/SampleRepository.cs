@@ -27,7 +27,7 @@ namespace Dal.Repositories
 
         public async Task<TestModel> GetTestByIdAsync(int id)
         {
-            var entity = await _context.Test.Where(t => t.Id == id).SingleOrDefaultAsync();
+            var entity = await _context.Test.SingleOrDefaultAsync(t => t.Id == id);
             return _mapper.Map<TestModel>(entity);
         }
     }

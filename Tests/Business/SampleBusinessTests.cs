@@ -15,9 +15,9 @@ namespace UnitTests.Business
         Mock<ISampleRepository> mock = new Mock<ISampleRepository>();
 
         [TestMethod]
-        public void ListAllTestsAsync_ReturnsTheListOfAllTests()
+        public async Task GetTestsAsync_ReturnsTheListOfAllTests()
         {
-            //Arrange
+            // Arrange
             mock.Setup(m => m.GetTestsAsync())
                 .Returns(Task.Run(() => GetSampleTests()));
 
@@ -25,10 +25,10 @@ namespace UnitTests.Business
 
             var expected = GetSampleTests().Select(t => t.Title);
 
-            //Act
-            var actual = sampleBusiness.ListAllTestsAsync().Result;
+            // Act
+            var actual = await sampleBusiness.GetTestsAsync();
 
-            //Assert
+            // Assert
             Assert.IsNotNull(actual);
 
             Assert.AreEqual(expected.Count(), actual.Count());
@@ -40,23 +40,22 @@ namespace UnitTests.Business
         }
 
         [TestMethod]
-        public void ListOneTestAsync_WhenGivenAValidId_ReturnsTheEquivalentTest()
+        public async Task GetTestByIdAsync_WhenGivenAValidId_ReturnsTheEquivalentTest()
         {
-            //Arrange
+            // Arrange
             int testId = 1;
             mock.Setup(m => m.GetTestByIdAsync(testId))
                 .Returns(Task.Run(() => GetSampleTests().SingleOrDefault(t => t.Id == testId)));
 
             var sampleBusiness = new SampleBusiness(mock.Object);
 
-            string expected = GetSampleTests().Where(t => t.Id == testId).SingleOrDefault().Title;
+            string expected = GetSampleTests().SingleOrDefault(t => t.Id == testId).Title;
 
-            //Act
-            string actual = sampleBusiness.ListOneTestAsync(testId).Result;
+            // Act
+            string actual = await sampleBusiness.GetTestByIdAsync(testId);
 
-            //Assert
+            // Assert
             Assert.IsNotNull(actual);
-
             Assert.AreEqual(expected, actual);
         }
 

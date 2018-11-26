@@ -10,27 +10,25 @@ namespace Business
     public class SampleBusiness : ISampleBusiness
     {
         private readonly ISampleRepository _sampleRepository;
-        private IEnumerable<TestModel> sample;
-        private TestModel singleSample;
 
         public SampleBusiness(ISampleRepository sampleRepository)
         {
             _sampleRepository = sampleRepository;
         }
 
-        public async Task<IEnumerable<string>> ListAllTestsAsync()
+        public async Task<IEnumerable<string>> GetTestsAsync()
         {
-            await InstantiateSampleAsync();
+            IEnumerable<TestModel> sample = await _sampleRepository.GetTestsAsync();
             return sample.Select(e => e.Title);
         }
 
-        public async Task<string> ListOneTestAsync(int id)
+        public async Task<string> GetTestByIdAsync(int id)
         {
             string title = null;
 
             try
             {
-                await InstantiateSampleAsync(id);
+                TestModel singleSample = await _sampleRepository.GetTestByIdAsync(id);
                 title = singleSample.Title;
             }
             catch (NullReferenceException)
@@ -39,16 +37,6 @@ namespace Business
             }
 
             return title;
-        }
-
-        private async Task InstantiateSampleAsync()
-        {
-            sample = await _sampleRepository.GetTestsAsync();
-        }
-
-        private async Task InstantiateSampleAsync(int id)
-        {
-            singleSample = await _sampleRepository.GetTestByIdAsync(id);
         }
     }
 }

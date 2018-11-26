@@ -3,7 +3,6 @@ using Business;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,20 +15,20 @@ namespace UnitTests.Api
         Mock<ISampleBusiness> mock = new Mock<ISampleBusiness>();
 
         [TestMethod]
-        public void GetAsync_ReturnsAListOfAllTests()
+        public async Task GetAsync_ReturnsAListOfAllTests()
         {
-            //Arrange
-            mock.Setup(m => m.ListAllTestsAsync())
+            // Arrange
+            mock.Setup(m => m.GetTestsAsync())
                 .Returns(Task.Run(() => GetSampleTests()));
 
             var sampleController = new SampleController(mock.Object);
 
             var expected = GetSampleTests();
 
-            //Act
-            var result = sampleController.GetAsync().Result;
+            // Act
+            var result = await sampleController.GetAsync();
 
-            //Assert
+            // Assert
             var okObjectResult = result as OkObjectResult;
             Assert.IsNotNull(okObjectResult);
 
@@ -45,21 +44,21 @@ namespace UnitTests.Api
         }
 
         [TestMethod]
-        public void GetAsync_WhenIdExists_ReturnsTheTestWithTheGivenId()
+        public async Task GetAsync_WhenIdExists_ReturnsTheTestWithTheGivenId()
         {
-            //Arrange
+            // Arrange
             int testId = 1;
-            mock.Setup(m => m.ListOneTestAsync(testId))
+            mock.Setup(m => m.GetTestByIdAsync(testId))
                 .Returns(Task.Run(() => GetSampleTests().ElementAt(testId)));
 
             var sampleController = new SampleController(mock.Object);
 
             var expected = GetSampleTests().ElementAt(testId);
 
-            //Act
-            var result = sampleController.GetAsync(testId).Result;
+            // Act
+            var result = await sampleController.GetAsync(testId);
 
-            //Assert
+            // Assert
             var okObjectResult = result as OkObjectResult;
             Assert.IsNotNull(okObjectResult);
 
@@ -72,18 +71,18 @@ namespace UnitTests.Api
         [TestMethod]
         public async Task GetAsync_WhenIdDoesntExist_ReturnsNotFound()
         {
-            //Arrange
-            mock.Setup(m => m.ListOneTestAsync(It.IsAny<int>()))
+            // Arrange
+            mock.Setup(m => m.GetTestByIdAsync(It.IsAny<int>()))
                 .ReturnsAsync(null as string);
 
             var sampleController = new SampleController(mock.Object);
 
             var expected = 404;
 
-            //Act
+            // Act
             var actual = await sampleController.GetAsync(1) as NotFoundResult;
 
-            //Assert
+            // Assert
             Assert.AreEqual(expected, actual.StatusCode);
         }
 

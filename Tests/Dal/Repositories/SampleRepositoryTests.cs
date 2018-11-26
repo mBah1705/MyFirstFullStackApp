@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace UnitTests.Dal.Repositories
 {
@@ -15,17 +16,17 @@ namespace UnitTests.Dal.Repositories
     public class SampleRepositoryTests
     {
         [TestMethod]
-        public void GetTestsAsync_ShouldReturnTheListOfTests()
+        public async Task GetTestsAsync_ShouldReturnTheListOfTests()
         {
-            //Arrange
+            // Arrange
             var tests = CreateProperTestsInMemory();
 
             IEnumerable<TestModel> expected = GetProperSampleData();
 
-            //Act
-            var actual = tests.GetTestsAsync().Result as IEnumerable<TestModel>;
+            // Act
+            var actual = await tests.GetTestsAsync() as IEnumerable<TestModel>;
 
-            //Assert
+            // Assert
             Assert.IsNotNull(actual);
             Assert.AreEqual(expected.Count(), actual.Count());
 
@@ -37,44 +38,44 @@ namespace UnitTests.Dal.Repositories
         }
 
         [TestMethod]
-        public void GetTestByIdAsync_WithSingleExistingIds_ShouldReturnTheProperTestSample()
+        public async Task GetTestByIdAsync_WithSingleExistingIds_ShouldReturnTheProperTestSample()
         {
-            //Arrange
+            // Arrange
             int testId = 1;
             var tests = CreateProperTestsInMemory();
 
             TestModel expected = GetProperSampleData().ElementAt(testId -1);
 
-            //Act
-            var actual = tests.GetTestByIdAsync(testId).Result as TestModel;
+            // Act
+            var actual = await tests.GetTestByIdAsync(testId) as TestModel;
 
-            //Assert
+            // Assert
             Assert.IsNotNull(actual);
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.Title, actual.Title);
         }
 
         [TestMethod]
-        public void GetTestByIdAsync_WithNonExistingId_ShouldNotReturnAnyValue()
+        public async Task GetTestByIdAsync_WithNonExistingId_ShouldNotReturnAnyValue()
         {
-            //Arrange
+            // Arrange
             int testId = 3;
             var tests = CreateProperTestsInMemory();
 
-            //Act
-            var actual = tests.GetTestByIdAsync(testId).Result;
+            // Act
+            var actual = await tests.GetTestByIdAsync(testId);
 
-            //Assert
+            // Assert
             Assert.IsNull(actual);
         }
 
         [TestMethod]
         public void GetTestByIdAsync_WithRepeatedId_ShouldThrowAnException()
         {
-            //Arrange
+            // Arrange
             int testId = 1;
 
-            //Assert
+            // Assert
             Assert.ThrowsExceptionAsync<InvalidOperationException>(() => CreateTestsWithRepeatedIdsInMemory()
             .GetTestByIdAsync(testId));
         }

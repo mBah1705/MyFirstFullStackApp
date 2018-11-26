@@ -5,7 +5,7 @@ namespace Business
 {
     public interface ISampleBusiness
     {
-        Task<IEnumerable<string>> ListAllTestsAsync();
-        Task<string> ListOneTestAsync(int id);
+        Task<IEnumerable<string>> GetTestsAsync();
+        Task<string> GetTestByIdAsync(int id);
     }
 }
