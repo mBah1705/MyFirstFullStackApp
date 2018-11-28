@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Common.Model;
+using Common.Models;
 using Dal.Entities;
 
 namespace Common.Utility
@@ -9,6 +9,8 @@ namespace Common.Utility
         public ApplicationProfile()
         {
             CreateMap<Test, TestModel>();
+            CreateMap<Candidate, CandidateModel>()
+                .ForMember(dest => dest.TestName, opt => opt.MapFrom(src => src.Test.Title));
         }
     }
 }
