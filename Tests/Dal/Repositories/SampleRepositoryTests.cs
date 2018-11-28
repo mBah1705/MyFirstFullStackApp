@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Common.Model;
+using Common.Models;
 using Common.Utility;
 using Dal.DBContext;
 using Dal.Entities;

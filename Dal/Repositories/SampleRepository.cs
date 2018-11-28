@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Common.Model;
+using Common.Models;
 using Dal.DBContext;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;

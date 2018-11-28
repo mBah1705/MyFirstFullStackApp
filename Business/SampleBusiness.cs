@@ -1,4 +1,4 @@
-﻿using Common.Model;
+﻿using Common.Models;
 using Dal.Repositories;
 using System;
 using System.Collections.Generic;
