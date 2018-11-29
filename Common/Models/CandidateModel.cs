@@ -1,4 +1,6 @@
-﻿namespace Common.Models
+﻿using System.Collections.Generic;
+
+namespace Common.Models
 {
     public class CandidateModel
     {
@@ -7,7 +9,7 @@
         public string LastName { get; set; }
         public int TestId { get; set; }
 
-        public string TestName { get; set; }
-        public int Grade { get; set; }
+        public TestModel Test { get; set; }
+        public ICollection<ResultModel> Result { get; set; }
     }
 }

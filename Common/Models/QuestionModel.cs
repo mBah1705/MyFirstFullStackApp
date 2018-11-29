@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Common.Models
 {
@@ -8,5 +6,8 @@ namespace Common.Models
     {
         public int Id { get; set; }
         public string Statement { get; set; }
+
+        public ICollection<AnswerModel> Answer { get; set; }
+        public ICollection<TestQuestionModel> TestQuestion { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Common.Models
+﻿using System.Collections.Generic;
+
+namespace Common.Models
 {
     public class AnswerModel
     {
@@ -7,5 +9,8 @@
         public string Code { get; set; }
         public string Label { get; set; }
         public bool IsGood { get; set; }
+
+        public QuestionModel Question { get; set; }
+        public ICollection<ResultModel> Result { get; set; }
     }
 }
