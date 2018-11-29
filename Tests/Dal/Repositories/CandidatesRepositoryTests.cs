@@ -66,7 +66,35 @@ namespace UnitTests.Dal.Repositories
                 Assert.AreEqual(expected.ElementAt(i).Id, actual.ElementAt(i).Id);
                 Assert.AreEqual(expected.ElementAt(i).FirstName, actual.ElementAt(i).FirstName);
                 Assert.AreEqual(expected.ElementAt(i).LastName, actual.ElementAt(i).LastName);
-                Assert.AreEqual(expected.ElementAt(i).TestName, actual.ElementAt(i).TestName);
+                Assert.AreEqual(expected.ElementAt(i).Test.Title, actual.ElementAt(i).Test.Title);
+            }
+        }
+
+        [TestMethod]
+        public async Task GetCandidatesAsync_ShouldReturnTheListOfCandidatesWithTheCorrespondingResultAnswers()
+        {
+            // Arrange
+            var candidates = CreateProperCandidatesInMemory();
+
+            IEnumerable<CandidateModel> expected = GetProperCandidatesTestsData();
+
+            // Act
+            var actual = await candidates.GetCandidatesAsync() as IEnumerable<CandidateModel>;
+            actual = actual.OrderBy(c => c.Id);
+
+            // Assert
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Count(), actual.Count());
+
+            for (int i = 0; i < expected.Count(); i++)
+            {
+                Assert.AreEqual(expected.ElementAt(i).Id, actual.ElementAt(i).Id);
+                Assert.AreEqual(expected.ElementAt(i).FirstName, actual.ElementAt(i).FirstName);
+                Assert.AreEqual(expected.ElementAt(i).LastName, actual.ElementAt(i).LastName);
+                for (int j = 0; j < expected.ElementAt(i).Result.Count; j++)
+                {
+                    Assert.AreEqual(expected.ElementAt(i).Result.ElementAt(j).Answer.Id, actual.ElementAt(i).Result.ElementAt(j).Answer.Id);
+                }
             }
         }
 
@@ -88,17 +116,11 @@ namespace UnitTests.Dal.Repositories
 
         private void SeedProperCandidatesToDb(MyFirstFullStackApp_DEVContext context)
         {
-            if (context.Candidate.Count() != 0)
-            {
-                context.Candidate.RemoveRange(context.Candidate);
-                context.SaveChanges();
-            }
-
-            if (context.Test.Count() != 0)
-            {
-                context.Test.RemoveRange(context.Test);
-                context.SaveChanges();
-            }
+            context.Candidate.RemoveRange(context.Candidate);
+            context.Test.RemoveRange(context.Test);
+            context.Result.RemoveRange(context.Result);
+            context.Answer.RemoveRange(context.Answer);
+            context.SaveChanges();
 
             var candidates = PopulateCandidates();
 
@@ -116,8 +138,36 @@ namespace UnitTests.Dal.Repositories
                     FirstName = "Test FirstName 1",
                     LastName = "Test LastName 1",
                     TestId = 1,
-                    TestName = myTest.Title,
-                    Grade = 10
+                    Test = new TestModel
+                    {
+                        Id = 1,
+                        Title = "TestTitle 1"
+                    },
+                    Result = new []
+                    {
+                        new ResultModel
+                        {
+                            Id = 1,
+                            CandidateId = 1,
+                            AnswerId = 1,
+                            Answer = new AnswerModel
+                            {
+                                Id = 1,
+                                IsGood = true
+                            }
+                        },
+                        new ResultModel
+                        {
+                            Id = 2,
+                            CandidateId = 1,
+                            AnswerId = 5,
+                            Answer = new AnswerModel
+                            {
+                                Id = 5,
+                                IsGood = false
+                            }
+                        }
+                    }
                 },
                 new CandidateModel
                 {
@@ -125,8 +175,36 @@ namespace UnitTests.Dal.Repositories
                     FirstName = "Test FirstName 2",
                     LastName = "Test LastName 2",
                     TestId = 1,
-                    TestName = myTest.Title,
-                    Grade = 20
+                    Test = new TestModel
+                    {
+                        Id = 1,
+                        Title = "TestTitle 1"
+                    },
+                    Result = new []
+                    {
+                        new ResultModel
+                        {
+                            Id = 3,
+                            CandidateId = 2,
+                            AnswerId = 1,
+                            Answer = new AnswerModel
+                            {
+                                Id = 1,
+                                IsGood = true
+                            }
+                        },
+                        new ResultModel
+                        {
+                            Id = 4,
+                            CandidateId = 2,
+                            AnswerId = 5,
+                            Answer = new AnswerModel
+                            {
+                                Id = 5,
+                                IsGood = false
+                            }
+                        }
+                    }
                 },
                 new CandidateModel
                 {
@@ -134,8 +212,36 @@ namespace UnitTests.Dal.Repositories
                     FirstName = "Test FirstName 3",
                     LastName = "Test LastName 3",
                     TestId = 2,
-                    TestName = "TestTitle 2",
-                    Grade = 15
+                    Test = new TestModel
+                    {
+                        Id = 2,
+                        Title = "TestTitle 2"
+                    },
+                    Result = new []
+                    {
+                        new ResultModel
+                        {
+                            Id = 5,
+                            CandidateId = 3,
+                            AnswerId = 14,
+                            Answer = new AnswerModel
+                            {
+                                Id = 14,
+                                IsGood = true
+                            }
+                        },
+                        new ResultModel
+                        {
+                            Id = 6,
+                            CandidateId = 3,
+                            AnswerId = 19,
+                            Answer = new AnswerModel
+                            {
+                                Id = 19,
+                                IsGood = true
+                            }
+                        }
+                    }
                 }
             };
             return list;
@@ -151,7 +257,31 @@ namespace UnitTests.Dal.Repositories
                     FirstName = "Test FirstName 1",
                     LastName = "Test LastName 1",
                     TestId = 1,
-                    Test = myTest
+                    Test = myTest,
+                    Result = {
+                        new Result
+                        {
+                            Id = 1,
+                            CandidateId = 1,
+                            AnswerId = 1,
+                            Answer = new Answer
+                            {
+                                Id = 1,
+                                IsGood = true
+                            }
+                        },
+                        new Result
+                        {
+                            Id = 2,
+                            CandidateId = 1,
+                            AnswerId = 5,
+                            Answer = new Answer
+                            {
+                                Id = 5,
+                                IsGood = false
+                            }
+                        },
+                    }
                 },
                 new Candidate
                 {
@@ -159,7 +289,31 @@ namespace UnitTests.Dal.Repositories
                     FirstName = "Test FirstName 2",
                     LastName = "Test LastName 2",
                     TestId = 1,
-                    Test = myTest
+                    Test = myTest,
+                    Result = {
+                        new Result
+                        {
+                            Id = 3,
+                            CandidateId = 2,
+                            AnswerId = 1,
+                            Answer = new Answer
+                            {
+                                Id = 1,
+                                IsGood = true
+                            }
+                        },
+                        new Result
+                        {
+                            Id = 4,
+                            CandidateId = 2,
+                            AnswerId = 5,
+                            Answer = new Answer
+                            {
+                                Id = 5,
+                                IsGood = false
+                            }
+                        },
+                    }
                 },
                 new Candidate
                 {
@@ -171,6 +325,30 @@ namespace UnitTests.Dal.Repositories
                     {
                         Id = 2,
                         Title = "TestTitle 2"
+                    },
+                    Result = {
+                        new Result
+                        {
+                            Id = 5,
+                            CandidateId = 3,
+                            AnswerId = 14,
+                            Answer = new Answer
+                            {
+                                Id = 14,
+                                IsGood = true
+                            }
+                        },
+                        new Result
+                        {
+                            Id = 6,
+                            CandidateId = 3,
+                            AnswerId = 19,
+                            Answer = new Answer
+                            {
+                                Id = 19,
+                                IsGood = true
+                            }
+                        },
                     }
                 }
             };

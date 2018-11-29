@@ -9,8 +9,7 @@ namespace Common.Utility
         public ApplicationProfile()
         {
             CreateMap<Test, TestModel>();
-            CreateMap<Candidate, CandidateModel>()
-                .ForMember(dest => dest.TestName, opt => opt.MapFrom(src => src.Test.Title));
+            CreateMap<Candidate, CandidateModel>();
         }
     }
 }

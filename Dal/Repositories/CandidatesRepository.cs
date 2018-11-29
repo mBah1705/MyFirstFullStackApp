@@ -23,6 +23,8 @@ namespace Dal.Repositories
         {
             var entities = await _context.Candidate
                 .Include(c => c.Test)
+                .Include(c => c.Result)
+                    .ThenInclude(r => r.Answer)
                 .ToListAsync();
 
             return _mapper.Map<IEnumerable<CandidateModel>>(entities);
