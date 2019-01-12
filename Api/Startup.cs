@@ -29,6 +29,8 @@ namespace Api
             services.AddScoped<ISampleBusiness, SampleBusiness>();
             services.AddScoped<ISampleRepository, SampleRepository>();
             services.AddScoped<IMyFirstFullStackApp_DEVContext, MyFirstFullStackApp_DEVContext>();
+            services.AddScoped<ICandidatesBusiness, CandidatesBusiness>();
+            services.AddScoped<ICandidatesRepository, CandidatesRepository>();
 
             services.AddSwaggerGen(opt =>
             {
